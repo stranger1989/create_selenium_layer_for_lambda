@@ -1,0 +1,37 @@
+service: selenium-layer
+
+package:
+  exclude:
+    - bin/locales/**
+    - bin/chrome_debug.log
+
+provider:
+  name: aws
+  runtime: python3.6
+  stage: dev
+  region: ap-northeast-1
+
+layers:
+  selenium:
+    path: selenium
+    description: selenium layer
+    CompatibleRuntimes: 
+      - python3.6
+  chromedriver:
+    path: bin
+    description: chrome driver layer
+    CompatibleRuntimes:
+      - python3.6
+
+resources:
+  Outputs:
+    SeleniumLayerExport:
+      Value:
+        Ref: SeleniumLambdaLayer
+      Export:
+        Name: SeleniumLambdaLayer
+    ChromedriverLayerExport:
+      Value:
+        Ref: ChromedriverLambdaLayer
+      Export:
+        Name: ChromedriverLambdaLayer
